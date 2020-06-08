@@ -4,6 +4,7 @@
 /* istanbul ignore file */
 const fastify = require('fastify')({ logger: true })
 const Next = require('next')
+const fetch = require('node-fetch')
 
 const { version } = require('./package.json')
 
@@ -24,6 +25,19 @@ fastify.register((fastify, opts, next) => {
 
       fastify.get('/version', (req, reply) => {
         reply.send({ version })
+      })
+
+      fastify.get('/api/todos', (req, reply) => {
+        fetch('http://localhost:4000/todos')
+          .then((response) => response.json())
+          .then((data) => {
+            reply.send({ data })
+          })
+          .catch((err) => {
+            reply.send({
+              message: JSON.stringify(err),
+            })
+          })
       })
 
       fastify.get('/*', async (req, reply) => {

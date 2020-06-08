@@ -9,6 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import List from '@material-ui/core/List'
 /** Custom Components */
 import todoAPI from '../api/todo'
+import externalTodosApi from '../api/server'
 import TodoComponent from '../components/Todo/Todo'
 
 /**
@@ -17,11 +18,19 @@ import TodoComponent from '../components/Todo/Todo'
 function IndexPage() {
   const [todos, setTodos] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [externalTodos, setExternalTodos] = useState([])
   // Fetch todos from API
   const fetchData = async () => {
     setIsLoading(true)
     const result = await todoAPI()
     setTodos(result)
+    setIsLoading(false)
+  }
+  // Fetch todos from Server
+  const fetchServiceData = async () => {
+    setIsLoading(true)
+    const result = await externalTodosApi()
+    setExternalTodos(result.data.data)
     setIsLoading(false)
   }
   return (
@@ -42,9 +51,14 @@ function IndexPage() {
             World
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <Button variant="contained" color="primary" onClick={() => fetchData()}>
             Fetch Data
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Button variant="contained" color="primary" onClick={() => fetchServiceData()}>
+            Fetch Service Data
           </Button>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -52,6 +66,12 @@ function IndexPage() {
             {isLoading ? <CircularProgress />
               : <TodoComponent
                 todos={todos}
+                // deleteTodo={(id) => setTodos(todos.filter((itm) => itm.id !== id))}
+              />
+            }
+            {isLoading ? <CircularProgress />
+              : <TodoComponent
+                todos={externalTodos}
                 // deleteTodo={(id) => setTodos(todos.filter((itm) => itm.id !== id))}
               />
             }
