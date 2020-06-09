@@ -37,12 +37,12 @@ fastify.get('/todos', async (req, reply) => {
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen(4000)
+    // We have to specify 0.0.0.0 to be available IPv4 interfaces eg. Docker
+    await fastify.listen(4000, '0.0.0.0')
     fastify.log.info(`server listening on ${fastify.server.address().port}`)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
   }
 }
-
 start()

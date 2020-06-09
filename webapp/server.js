@@ -10,6 +10,7 @@ const { version } = require('./package.json')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
+const API_ADDRESS = 'http://serverapp:4000'
 
 fastify.register((fastify, opts, next) => {
   const app = Next({ dev })
@@ -28,12 +29,15 @@ fastify.register((fastify, opts, next) => {
       })
 
       fastify.get('/api/todos', (req, reply) => {
-        fetch('http://localhost:4000/todos')
+        console.log(API_ADDRESS)
+        console.log('Fetching Todos')
+        fetch(`${API_ADDRESS}/todos`)
           .then((response) => response.json())
           .then((data) => {
             reply.send({ data })
           })
           .catch((err) => {
+            console.log(err)
             reply.send({
               message: JSON.stringify(err),
             })
