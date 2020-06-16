@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: serverapp
+spec:
+  selector:
+    app: serverapp
+    tier: frontend
+  ports:
+  - protocol: TCP
+    port: 4000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serverapp
+  labels:
+    app: serverapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: serverapp
+      tier: frontend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: serverapp
+        tier: frontend
+        track: stable
+    spec:
+      containers:
+        - name: serverapp
+          image: usmakestwo/serverapp
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 4000
+          resources:
+              requests:
+                memory: "64Mi"
+                #0.25 cpu
+                cpu: "250m"
+              limits:
+                #0.5 cpu
+                memory: "128Mi"
+                cpu: "500m"
