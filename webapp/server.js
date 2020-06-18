@@ -10,7 +10,7 @@ const { version } = require('./package.json')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
-const API_ADDRESS = 'http://serverapp:4000'
+const API_ADDRESS = process.env.SERVER_ENDPOINT || 'http://serverapp:4000'
 
 fastify.register((fastify, opts, next) => {
   const app = Next({ dev })
@@ -63,4 +63,5 @@ fastify.register((fastify, opts, next) => {
 fastify.listen(port, '0.0.0.0', (err) => {
   if (err) throw err
   console.log(`> Ready on http://localhost:${port}`)
+  console.log(`> Connected to ${API_ADDRESS} service`)
 })

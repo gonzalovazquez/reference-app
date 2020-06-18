@@ -3,18 +3,6 @@ const fastify = require('fastify')({ logger: true })
 const { version } = require('./package.json')
 const fetch = require('node-fetch')
 
-// Enable Cors
-// fastify.register(require('fastify-cors'), { 
-//   origin: (origin, cb) => {
-//     if (/localhost/.test(origin)) {
-//         //  Request from localhost will pass
-//         cb(null, true)
-//         return
-//     }
-//     cb(new Error("Not Allowed"), false)
-//   }
-// })
-
 // Declare a route
 fastify.get('/', async (request, reply) => {
   return { hello: 'world' }

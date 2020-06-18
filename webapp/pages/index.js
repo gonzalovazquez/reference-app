@@ -2,15 +2,17 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 /** Material UI Components */
-import Grid from '@material-ui/core/Grid'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import List from '@material-ui/core/List'
 /** Custom Components */
 import todoAPI from '../api/todo'
 import externalTodosApi from '../api/server'
 import TodoComponent from '../components/Todo/Todo'
+import ActionCard from '../components/ActionCard/ActionCard'
 
 /**
  * Main Index Page to render on homepage
@@ -18,13 +20,14 @@ import TodoComponent from '../components/Todo/Todo'
 function IndexPage() {
   const [todos, setTodos] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingExt, setIsLoadingExt] = useState(false)
   const [externalTodos, setExternalTodos] = useState([])
   // Fetch todos from API
   const fetchData = async () => {
-    setIsLoading(true)
+    setIsLoadingExt(true)
     const result = await todoAPI()
     setTodos(result)
-    setIsLoading(false)
+    setIsLoadingExt(false)
   }
   // Fetch todos from Server
   const fetchServiceData = async () => {
@@ -40,39 +43,44 @@ function IndexPage() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Grid container>
-        <Grid item xs={6}>
-          <Typography variant="h1" component="h1" gutterBottom>
-            Hello
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6">
+            Reference App
           </Typography>
+        </Toolbar>
+      </AppBar>
+      <Grid container spacing={8}>
+        <Grid item xs={6}>
+          <ActionCard
+            heading="External API Call"
+            title="Fetch Todos"
+            secondary="/todos"
+            description="The following function makes a call to an external service"
+            fetchData={fetchData}
+          />
         </Grid>
         <Grid item xs={6}>
-          <Typography variant="h1" component="h1" gutterBottom>
-            World
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Button variant="contained" color="primary" onClick={() => fetchData()}>
-            Fetch Data
-          </Button>
-        </Grid>
-        <Grid item xs={6}>
-          <Button variant="contained" color="primary" onClick={() => fetchServiceData()}>
-            Fetch Service Data
-          </Button>
+          <ActionCard
+            heading="Interal API Call"
+            title="Fetch Todos"
+            secondary="/api/todos"
+            description="The following function makes a call to an external service"
+            fetchData={fetchServiceData}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <List>
-            {isLoading ? <CircularProgress />
+            {isLoadingExt ? <CircularProgress />
               : <TodoComponent
                 todos={todos}
-                // deleteTodo={(id) => setTodos(todos.filter((itm) => itm.id !== id))}
+                deleteTodo={(id) => setTodos(todos.filter((itm) => itm.id !== id))}
               />
             }
             {isLoading ? <CircularProgress />
               : <TodoComponent
                 todos={externalTodos}
-                // deleteTodo={(id) => setTodos(todos.filter((itm) => itm.id !== id))}
+                deleteTodo={(id) => setTodos(todos.filter((itm) => itm.id !== id))}
               />
             }
           </List>

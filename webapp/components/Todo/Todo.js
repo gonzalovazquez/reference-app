@@ -11,7 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
  * @param {object} props
  */
 const Todo = (props) => (
-  <div className="todo">
+  <div className="todo" style={{ margin: 20 }}>
     {
       props.todos.map((value) => (
         <ListItem key={value.id}>
