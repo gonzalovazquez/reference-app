@@ -6,6 +6,8 @@ services:
   webapp:
     build: ./webapp
     container_name: webapp
+    environment:
+      - SERVER_ENDPOINT=http://serverapp:4000
     expose:
       - "3000"
     ports:

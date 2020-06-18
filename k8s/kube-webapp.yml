@@ -34,6 +34,12 @@ spec:
       containers:
         - name: webapp
           image: usmakestwo/webapp
+          env:
+            - name: SERVER_ENDPOINT
+              valueFrom:
+                  configMapKeyRef:
+                    name: reference-config
+                    key: server_endpoint
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 3000
