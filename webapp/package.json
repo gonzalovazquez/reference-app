@@ -16,7 +16,7 @@
     "@material-ui/icons": "^4.9.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
-    "fastify": "^2.14.1",
+    "fastify": "^2.15.1",
     "next": "9.4.0",
     "node-fetch": "^2.6.0",
     "prop-types": "^15.7.2",
