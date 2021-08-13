@@ -17,7 +17,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "fastify": "^2.14.1",
-    "next": "9.4.0",
+    "next": "11.1.0",
     "node-fetch": "^2.6.0",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
